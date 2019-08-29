@@ -10,13 +10,14 @@
 //2 Get raw html
 const rp = require('request-promise');
 const $ = require('cheerio');
+const parseCompanyOpinion = require('./parse_company_opinion')
 
 
 
 //Search variables
  //Site url - Junior fron end warszawa search url
  const url = 'https://www.gowork.pl/opinie/robert-bosch-sp.-z-o.o.;pr/warszawa;l';
- const offerLinkSelector = '.list-group-item company-search-group-item .o-link o-link--blue a';
+ const companyLinkSelector = '.o-link.o-link--blue';
 
 
 
@@ -28,31 +29,18 @@ rp(url)
     //console.log(html);
 	
 	//3 Parsing HTML with Cheerio.js
-	 //console.log($(containersSelector, html));
-     //console.log($('big > a', html));
-	const offerUrls = [];
-	const offersNumber =$(offerLinkSelector, html).length
+	const companyDOM = $(companyLinkSelector, html);
+	const companyUrl = 'https://www.gowork.pl' + companyDOM[0].attribs.href;
+	
+	console.log(companyUrl)
+	
 
-	
-	for (let i = 0; i < offersNumber; i++){
-		//4 filter only the links
-		offerUrls.push($(offerLinkSelector, html)[i].attribs.href);
-	}
-	
-	
-	
-	return Promise.all(
-		offerUrls.map(function(offerUrl){
-			console.log(siteUrl + offerUrl)
-			return offerParse('https://www.gowork.pl/' + offerUrl)
-		})
-	)
-
+	return parseCompanyOpinion(companyUrl)
 	
   })
   
-  .then(function(presidents){
-     console.log(presidents)
+  .then(function(company){
+     console.log(company)
    })
 	
   

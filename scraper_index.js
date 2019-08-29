@@ -11,6 +11,7 @@
 const rp = require('request-promise');
 const $ = require('cheerio');
 const offerParse = require('./offerParse');
+const fs = require('fs');
 
 
 //Search variables
@@ -51,8 +52,17 @@ rp(url)
 	
   })
   
-  .then(function(presidents){
-     console.log(presidents)
+  .then(function(jobOffers){
+	  const jobOffersString = JSON.stringify(jobOffers)
+     //console.log(jobOffersString)
+	 
+	 fs.writeFile("./jsonoutput/jobs.json", jobOffersString, function(err){
+		 if(err){
+			 return console.log(err)
+		 }
+		 
+		 console.log("###File was saved!###")
+	 })
    })
 	
   
