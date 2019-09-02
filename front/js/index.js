@@ -18,25 +18,37 @@ class UI {
     }
 }
 
+class HTTPJobs {
+    static getJobs(url, callback){
+        new Promise((resolve, reject)=> {
+            fetch(url)
+                .then(response=> response.json())
+                .then(data => resolve(data))
+                .catch(error => reject(error))
+        }).then(data => callback(data))
+          .catch(error => console.log(error))
+    }
+}
 
 
-new Promise((resolve, reject)=> {
-    fetch('./jsonoutput/jobs.json')
-        .then(response=> response.json())
-        .then(data => resolve(data))
-        .catch(error => reject(error))
-}).then(data => UI.updateTableRows(data))
-  .catch(error => console.log(error))
+class Filter {
+    static byDateDesc(data){
+        return data.sort((a, b)=> {
+            return new Date(b.datePosted) - new Date(a.datePosted)
+        })
+    }
+}
+
+HTTPJobs.getJobs('./jsonoutput/jobs.json', data => {
+    UI.updateTableRows(Filter.byDateDesc(data))
+})
+
+
+
 
 //Get job data
-setInterval(()=>{
-    new Promise((resolve, reject)=> {
-        fetch('./jsonoutput/jobs.json')
-            .then(response=> response.json())
-            .then(data => resolve(data))
-            .catch(error => reject(error))
-    }).then(data => UI.updateTableRows(data))
-      .catch(error => console.log(error))
+setInterval( ()=> {
+    HTTPJobs.getJobs('./jsonoutput/jobs.json', data => UI.updateTableRows(Filter.byDateDesc(data)))
 }, 9000)
 
 
