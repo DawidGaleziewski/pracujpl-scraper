@@ -18,6 +18,16 @@ class UI {
     }
 }
 
+
+
+new Promise((resolve, reject)=> {
+    fetch('./jsonoutput/jobs.json')
+        .then(response=> response.json())
+        .then(data => resolve(data))
+        .catch(error => reject(error))
+}).then(data => UI.updateTableRows(data))
+  .catch(error => console.log(error))
+
 //Get job data
 setInterval(()=>{
     new Promise((resolve, reject)=> {
