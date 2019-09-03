@@ -32,7 +32,7 @@ rp(url)
 	const companyDOM = $(companyLinkSelector, html);
 	const companyUrl = 'https://www.gowork.pl' + companyDOM[0].attribs.href;
 	
-	console.log(companyUrl)
+	//console.log(companyUrl)
 	
 
 	return parseCompanyOpinion(companyUrl)
@@ -40,7 +40,7 @@ rp(url)
   })
   
   .then(function(company){
-     console.log(company)
+     return company
    })
 	
   

@@ -20,7 +20,9 @@ const potusParse = function(url){
 			datePosted: $(datePostedSelector, html).text(),
 			jobUrl: url,
 			employer: $(employerSelector, html).text(),
-			address: $(addressSelector, html).text()
+			address: $(addressSelector, html).text(),
+			//Need to figure out how to pass the comments and rating to this object
+			employer_opinion: 'test'
 		}
 	  })
 	  .catch(function(err) {

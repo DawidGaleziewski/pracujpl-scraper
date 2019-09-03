@@ -44,7 +44,7 @@ rp(url)
 	
 	return Promise.all(
 		offerUrls.map(function(offerUrl){
-			console.log(siteUrl + offerUrl)
+			//console.log(siteUrl + offerUrl)
 			return offerParse(siteUrl + offerUrl)
 		})
 	)
